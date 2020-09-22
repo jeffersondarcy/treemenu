@@ -1,18 +1,26 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
+import Expand from "./Expand";
 
-function Item({name, children}) {
+const Item = ({name, children}) => {
 const [expanded, setExpanded] = useState(false);
 const toggle = () => setExpanded(!expanded);
+const hasChildren = () => children && children.length;
 
-return
+const renderChildren = () => {
+    if (hasChildren()) {
+        return children.map((child) => <Item name={child.name} children={child.children}/>)
+    }
+}
+
+return <>
+    {hasChildren && <Expand toggle={toggle} expanded={expanded} />}
+    <div>{name}</div>
+    {renderChildren()}
+    </>
 }
 
 Item.propTypes = {
     name: PropTypes.string.isRequired,
-    children: PropTypes.arrayOf(PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.array,
-        ])
-    ),
+    children: PropTypes.arrayOf(PropTypes.object),
 }
