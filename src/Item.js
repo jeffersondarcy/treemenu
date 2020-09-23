@@ -14,13 +14,15 @@ const renderChildren = () => {
 }
 
 return <>
-    {hasChildren && <Expand toggle={toggle} expanded={expanded} />}
+    {hasChildren() && <Expand toggle={toggle} expanded={expanded} />}
     <div>{name}</div>
     {renderChildren()}
     </>
 }
 
 Item.propTypes = {
+    id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
+    expand: PropTypes.func,
     children: PropTypes.arrayOf(PropTypes.object),
 }
