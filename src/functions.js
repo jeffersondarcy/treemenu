@@ -3,4 +3,9 @@ export const getChildren = async (itemId) => {
     return getMockItems()
 }
 
-const getMockItems = () => Array(20).fill().map((_, i) => `item-${i+1}`);
+const getMockItems = (count, parentId) => Array(count).fill().map((_, i) => `item-${parentId}-${i}`);
+
+const getListItemChildren = id => {
+    const childrenCount = Math.floor(Math.random() * 100);
+
+}

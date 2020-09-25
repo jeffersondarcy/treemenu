@@ -1,21 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FixedSizeList as ScrollableList } from 'react-window';
+import ListItem, {ItemInterface} from "./ListItem";
 
-const getMockItems = () => Array(20).fill().map((_, i) => `item-${i+1}`);
 const List = ({items}) => {
 
-    return <ScrollableList height={200} itemCount={100} itemSize={20} width={200}>
+    return (
+    <ScrollableList height={300} itemCount={items.length} itemSize={20} width={200}>
         {({ index, style }) => (
-            <div style={style}>
-                Item {index}
-            </div>
+            <ListItem
+                name={items[index].name}
+                id={items[index].id}
+                hasChildren={items[index].hasChildren}
+                style={style} />
         )}
-    </ScrollableList>
+    </ScrollableList>)
 }
 
 List.propTypes = {
-    items: PropTypes.arrayOf(PropTypes.object).isRequired,
+    items: PropTypes.arrayOf(ItemInterface).isRequired,
 }
 
 export default List;
