@@ -2,18 +2,22 @@ import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import Expand from "./Expand";
 import List from "./List";
+import {getChildren} from "./functions";
 
 const ListItem = (props) => {
-const [expanded, setExpanded] = useState(false);
-const toggle = () => setExpanded(!expanded);
+    const [expanded, setExpanded] = useState(false);
+    const toggle = () => {
+        console.log(expanded);
+        setExpanded(!expanded);
+    }
 
-const renderChildren = () => null
-
-return <>
-    {props.hasChildren && <Expand toggle={toggle} expanded={expanded} />}
-    <div>{props.name}</div>
-    {renderChildren()}
-    </>
+    return (
+        <>
+            {props.hasChildren && <Expand onClick={toggle} expanded={expanded}/>}
+            <div>{props.name}</div>
+            {expanded && <List items={getChildren(props.id)}/>}
+        </>
+    )
 }
 
 export const ItemInterface = PropTypes.shape({
@@ -21,9 +25,8 @@ export const ItemInterface = PropTypes.shape({
         name: PropTypes.string.isRequired,
         hasChildren: PropTypes.bool
     }
-)
+).isRequired
 
 ListItem.propTypes = ItemInterface
-
 
 export default ListItem

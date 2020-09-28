@@ -4,9 +4,8 @@ import { FixedSizeList as ScrollableList } from 'react-window';
 import ListItem, {ItemInterface} from "./ListItem";
 
 const List = ({items}) => {
-
     return (
-    <ScrollableList height={300} itemCount={items.length} itemSize={20} width={200}>
+    <ScrollableList height={300} itemCount={items.length} itemSize={20} width={400}>
         {({ index, style }) => (
             <ListItem
                 name={items[index].name}

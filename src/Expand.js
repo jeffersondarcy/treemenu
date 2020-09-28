@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function Expand({expanded, toggle}) {
+function Expand({expanded, onClick}) {
 
     return (
-        <div onClick={toggle}>
+        <div onClick={onClick}>
             ({expanded ? '-' : '+'})
         </div>
     );
@@ -12,7 +12,7 @@ function Expand({expanded, toggle}) {
 
 Expand.propTypes = {
     expanded: PropTypes.bool.isRequired,
-    toggle: PropTypes.func.isRequired
+    onClick: PropTypes.func.isRequired
 }
 
 export default Expand
