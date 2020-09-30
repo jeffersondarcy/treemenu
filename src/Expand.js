@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+// import './ListItem.scss'
 
 function Expand({expanded, onClick}) {
 
     return (
-        <div onClick={onClick}>
+        <div className="Expand" onClick={onClick}>
             ({expanded ? '-' : '+'})
         </div>
     );

@@ -1,0 +1,18 @@
+.ListItem {
+    display: flex;
+    flex-direction: row;
+
+    .Expand {
+        min-width: 1.3em;
+    }
+    .Spacer {
+        @extend .Expand;
+        content: "&nbsp;";
+    }
+}
+
+
+
+.ListChildren {
+    padding-left: 1em;
+}

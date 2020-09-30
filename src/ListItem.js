@@ -4,17 +4,22 @@ import Expand from "./Expand";
 import List from "./List";
 import {getChildren} from "./functions";
 
+import './ListItem.scss'
+
 const ListItem = (props) => {
     const [expanded, setExpanded] = useState(false);
     const toggle = () => {
-        console.log(expanded);
         setExpanded(!expanded);
     }
 
     return (
         <>
-            {props.hasChildren && <Expand onClick={toggle} expanded={expanded}/>}
-            <div>{props.name}</div>
+            <div className="ListItem">
+                {props.hasChildren
+                    ? <Expand onClick={toggle} expanded={expanded}/>
+                    : <div className="Spacer"/>}
+                <div>{props.name}</div>
+            </div>
             {expanded && <List items={getChildren(props.id)}/>}
         </>
     )
