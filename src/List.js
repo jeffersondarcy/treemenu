@@ -1,19 +1,29 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import { FixedSizeList as ScrollableList } from 'react-window';
 import ListItem, {ItemInterface} from "./ListItem";
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 const List = ({items, className}) => {
+    const [limit, setLimit] = useState(20);
+    const next = () => setLimit(limit + 20);
+    const renderItems = () => (
+        items.slice(0, limit).map((item) => <ListItem
+                name={item.name}
+                id={item.id}
+                hasChildren={item.hasChildren}
+                 />
+        )
+    )
+
     return (
-    <ScrollableList className={className} height={300} itemCount={items.length} itemSize={20} width={400}>
-        {({ index, style }) => (
-            <ListItem
-                name={items[index].name}
-                id={items[index].id}
-                hasChildren={items[index].hasChildren}
-                style={style} />
-        )}
-    </ScrollableList>)
+        <InfiniteScroll
+            dataLength={limit}
+            hasMore={limit > items.length}
+            next={next}
+        >
+            {renderItems()}
+        </InfiniteScroll>
+    )
 }
 
 List.propTypes = {
