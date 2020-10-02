@@ -7,22 +7,27 @@ const List = ({items, className}) => {
     const [limit, setLimit] = useState(20);
     const next = () => setLimit(limit + 20);
     const renderItems = () => (
-        items.slice(0, limit).map((item) => <ListItem
+        items.slice(0, limit).map((item, index) => (
+            <ListItem
+                style
+                key={index}
                 name={item.name}
                 id={item.id}
                 hasChildren={item.hasChildren}
-                 />
+                 />)
         )
     )
 
     return (
-        <InfiniteScroll
-            dataLength={limit}
-            hasMore={limit > items.length}
-            next={next}
-        >
-            {renderItems()}
-        </InfiniteScroll>
+        <div>
+            <InfiniteScroll
+                dataLength={limit}
+                hasMore={limit < items.length}
+                next={next}
+            >
+                {renderItems()}
+            </InfiniteScroll>
+        </div>
     )
 }
 

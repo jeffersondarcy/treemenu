@@ -6,14 +6,21 @@ import {getChildren} from "./functions";
 
 import './ListItem.scss'
 
+const style = {
+    border: "1px solid green",
+    margin: 6,
+    padding: 8
+};
+
 const ListItem = (props) => {
     const [expanded, setExpanded] = useState(false);
     const toggle = () => {
         setExpanded(!expanded);
     }
+    const height = expanded ? 800 : 30
 
     return (
-        <div style={props.style}>
+        <div style={{...style, height}}>
             <div className="ListItem">
                 {props.hasChildren
                     ? <Expand onClick={toggle} expanded={expanded}/>
@@ -21,7 +28,7 @@ const ListItem = (props) => {
                 <div>{props.name}</div>
             </div>
             {expanded && (
-                <div style={{paddingLeft:200}}>
+                <div style={{position: 'absolute'}}>
                 <List items={getChildren(props.id)}/>
                 </div>
                 )}
@@ -36,9 +43,6 @@ export const ItemInterface = PropTypes.shape({
     }
 ).isRequired
 
-ListItem.propTypes = {
-    ...ItemInterface,
-    style: PropTypes.object
-}
+ListItem.propTypes = ItemInterface
 
 export default ListItem
