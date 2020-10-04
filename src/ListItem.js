@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import PropTypes from 'prop-types';
 import Expand from "./Expand";
 import List from "./List";
@@ -6,6 +6,7 @@ import { maxListLength } from './settings';
 import {getChildren} from "./functions";
 
 import './ListItem.scss'
+import TreeContext from "./TreeContext";
 
 const style = {
     border: "1px solid green",
@@ -14,43 +15,33 @@ const style = {
     height: 30
 };
 
-const ListItem = (props) => {
-    const [expanded, setExpanded] = useState(false);
+const ListItem = ({id}) => {
+    const [tree, setTree] = useContext(TreeContext)
+
+    if (!tree.has(id)) return null
+
+    const self = tree.get(id)
+
     const toggle = () => {
-        setExpanded(!expanded);
+        //setExpanded(!expanded);
     }
 
-    const children = expanded ? getChildren(props.id) : []
-
-    const getListHeight = () => {
-        const length = children.length < maxListLength ? children.length : maxListLength
-        return (style.height + 2 * style.margin) * ( length + 1 )
-}
+    // const children = expanded ? getChildren(props.id) : []
 
     return (
-        <div style={{...style, height: getListHeight()}}>
+        <div style={style}>
             <div className="ListItem">
-                {props.hasChildren
-                    ? <Expand onClick={toggle} expanded={expanded}/>
+                {self.hasChildren
+                    ? <Expand onClick={toggle} expanded={self.expanded}/>
                     : <div className="Spacer"/>}
-                <div>{props.name}</div>
+                <div>{self.name}</div>
             </div>
-            {expanded && (
-                <div style={{marginLeft: 80, marginTop: style.height}}>
-                <List items={children}/>
-                </div>
-                )}
         </div>
     )
 }
 
-export const ItemInterface = PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        hasChildren: PropTypes.bool,
-    }
-).isRequired
-
-ListItem.propTypes = ItemInterface
+ListItem.propTypes = {
+    id: PropTypes.string.isRequired,
+}
 
 export default ListItem

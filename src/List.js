@@ -1,23 +1,21 @@
 import React, {useContext, useState} from 'react';
-import PropTypes from 'prop-types';
-import ListItem, {ItemInterface} from "./ListItem";
+import ListItem from "./ListItem";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import TreeContext from "./TreeContext";
+import {getFlatTree} from "./functions";
 
 const List = () => {
     const [limit, setLimit] = useState(20)
-    const tree = useContext(TreeContext)
+    const {tree} = useContext(TreeContext)
+    const flatTree = getFlatTree(tree, limit)
     const next = () => setLimit(limit + 20)
 
     const renderItems = () => (
-        items.slice(0, limit).map((item, index) => (
+        flatTree.map((nodeId, index) => (
             <ListItem
-                style
                 key={index}
-                name={item.name}
-                id={item.id}
-                hasChildren={item.hasChildren}
-                 />)
+                id={nodeId}
+            />)
         )
     )
 
@@ -25,7 +23,7 @@ const List = () => {
         <div>
             <InfiniteScroll
                 dataLength={limit}
-                hasMore={limit < items.length}
+                hasMore={true}
                 next={next}
             >
                 {renderItems()}
