@@ -1,11 +1,14 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import PropTypes from 'prop-types';
 import ListItem, {ItemInterface} from "./ListItem";
 import InfiniteScroll from 'react-infinite-scroll-component';
+import TreeContext from "./TreeContext";
 
-const List = ({items, className}) => {
-    const [limit, setLimit] = useState(20);
-    const next = () => setLimit(limit + 20);
+const List = () => {
+    const [limit, setLimit] = useState(20)
+    const tree = useContext(TreeContext)
+    const next = () => setLimit(limit + 20)
+
     const renderItems = () => (
         items.slice(0, limit).map((item, index) => (
             <ListItem
@@ -29,11 +32,6 @@ const List = ({items, className}) => {
             </InfiniteScroll>
         </div>
     )
-}
-
-List.propTypes = {
-    items: PropTypes.arrayOf(ItemInterface).isRequired,
-    className: PropTypes.string,
 }
 
 export default List;

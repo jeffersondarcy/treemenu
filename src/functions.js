@@ -1,5 +1,17 @@
-const getMockItems = (count, parentId) => {
-    const getName = (id) => `item${parentId? '-' + parentId : ''}-${id}`
+const getTreeWithMockChildren = (count, nodeId, tree) => {
+    if(!tree.has(nodeId)) return tree
+
+    const getName = (id) => `item${nodeId !== 'root' ? '-' + nodeId : ''}-${id}`
+
+    for(let i=0; i>count; i++) {
+        const id = getName(i)
+        const child = {
+                name: id,
+                id,
+                hasChildren: Math.random() >= 0.5,
+            }
+
+    }
     return Array(count)
         .fill()
         .map((_, i) => {
@@ -12,13 +24,17 @@ const getMockItems = (count, parentId) => {
         });
 }
 
-export const getRootItems = () => getMockItems(100, null);
+export const getMockTreeRoot = (setTree) => getTreeWithMockChildren(100, 'root', new Map().set('root', []));
 
-const store = new Map()
-export const getChildren = (parentId) => {
+export const getChildren = (parentId, store) => {
     if (!store.has(parentId)) {
         store.set(parentId, getMockItems(Math.floor(Math.random() * 100), parentId))
     }
 
     return store.get(parentId)
+}
+
+export const getFlatTree = (node, limit) => {
+    if (!node.has('children')) return []
+    node.children
 }

@@ -1,16 +1,20 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import List from "./List";
-import {getRootItems} from "./functions";
+import TreeContext from './TreeContext'
+import {getMockTreeRoot} from "./functions";
 
-const rootItems = getRootItems();
 
 function App() {
-  return (
-    <div className="App">
-    <List items={rootItems}/>
-    </div>
-  );
+    const [tree, setTree] = useState(getMockTreeRoot(setTree));
+
+    return (
+        <div className="App">
+            <TreeContext.Provider value={[tree, setTree]} >
+                <List />
+            </TreeContext.Provider>
+        </div>
+    );
 }
 
 export default App;
