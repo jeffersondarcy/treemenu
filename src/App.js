@@ -8,7 +8,6 @@ import {getMockTreeRoot} from "./functions";
 enableMapSet()
 
 function App() {
-    console.log('start app')
     const [tree, setTree] = useState(getMockTreeRoot());
 
     return (

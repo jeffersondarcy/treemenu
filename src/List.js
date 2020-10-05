@@ -1,13 +1,15 @@
 import React, {useContext, useState} from 'react';
+import PropTypes from 'prop-types';
 import ListItem from "./ListItem";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import TreeContext from "./TreeContext";
 import {getFlatTree} from "./functions";
+import GoTo from "./GoTo";
 
-const List = () => {
+const List = ({goto}) => {
     const [limit, setLimit] = useState(20)
     const [tree] = useContext(TreeContext)
-    const flatTree = getFlatTree(tree, limit)
+    const flatTree = getFlatTree(tree, { limit, goto })
     const next = () => setLimit(limit + 20)
 
     const renderItems = () => (
@@ -21,6 +23,7 @@ const List = () => {
 
     return (
         <div>
+            <GoTo />
             <InfiniteScroll
                 dataLength={limit}
                 hasMore={true}
@@ -30,6 +33,10 @@ const List = () => {
             </InfiniteScroll>
         </div>
     )
+}
+
+List.propTypes = {
+    goto: PropTypes.string,
 }
 
 export default List;
