@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
+import {enableMapSet} from "immer"
 import './App.css';
 import List from "./List";
 import TreeContext from './TreeContext'
 import {getMockTreeRoot} from "./functions";
 
+enableMapSet()
 
 function App() {
     console.log('start app')

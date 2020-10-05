@@ -1,12 +1,10 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
 import Expand from "./Expand";
-import List from "./List";
-import { maxListLength } from './settings';
-import {getChildren} from "./functions";
 
 import './ListItem.scss'
 import TreeContext from "./TreeContext";
+import {toggle} from "./functions";
 
 const style = {
     border: "1px solid green",
@@ -22,17 +20,15 @@ const ListItem = ({id}) => {
 
     const self = tree.get(id)
 
-    const toggle = () => {
-        //setExpanded(!expanded);
-    }
+    const onToggle = () => toggle(id, tree, setTree)
 
     // const children = expanded ? getChildren(props.id) : []
 
     return (
-        <div style={style}>
+        <div style={{...style, marginLeft: style.margin + 30*(self.level-1)}}>
             <div className="ListItem">
                 {self.hasChildren
-                    ? <Expand onClick={toggle} expanded={self.expanded}/>
+                    ? <Expand onClick={onToggle} expanded={self.expanded}/>
                     : <div className="Spacer"/>}
                 <div>{self.name}</div>
             </div>

@@ -5,6 +5,7 @@ const getTreeWithMockChildren = (count, nodeId, tree) => {
     const node = tree.get(nodeId)
     node.hasChildren = true
     node.children = []
+    node.expanded = true
 
     const childLevel = node.level + 1
     const getName = (id) => `item${nodeId !== 'root' ? '-' + nodeId : ''}-${id}`
@@ -26,10 +27,6 @@ const getTreeWithMockChildren = (count, nodeId, tree) => {
     return tree
 }
 
-const getTreeWithMockChildrenImmutable = (count, nodeId, tree) =>
-    produce(tree, newTree =>
-        getTreeWithMockChildren(count, nodeId, newTree))
-
 export const getMockTreeRoot = () =>
     getTreeWithMockChildren(100, 'root',
         new Map().set('root', {
@@ -39,18 +36,33 @@ export const getMockTreeRoot = () =>
             children: []
         }))
 
-/*
-export const getChildren = (nodeId, tree) => {
-    if (!tree.has(nodeId)) return null
-    const node = tree.get(nodeId)
-    if (!node.hasOwnProperty('children')) {
+const expand = (nodeId, tree, setTree) => {
+    setTree(produce(tree, newTree => {
+        const node = newTree.get(nodeId)
+        node.expanded = true
+        newTree.set(nodeId, node)
+        if (node.children && node.children.length) {
+            return newTree
+        }
 
-        store.set(parentId, getMockItems(Math.floor(Math.random() * 100), parentId))
-    }
-
-    return store.get(parentId)
+        return getTreeWithMockChildren(Math.floor(Math.random() * 100), nodeId, newTree)
+    }))
 }
- */
+
+const collapse = (nodeId, tree, setTree) => {
+    setTree(produce(tree, newTree => {
+        const node = newTree.get(nodeId)
+        node.expanded = false
+        newTree.set(nodeId, node)
+    }))
+}
+
+export const toggle = (nodeId, tree, setTree) => {
+    if(!tree.has(nodeId)) return
+    const node = tree.get(nodeId)
+    if (node.expanded) return collapse(nodeId, tree, setTree)
+    return expand(nodeId, tree, setTree)
+}
 
 const hasChildren = node => node.expanded && node.hasChildren && node.children
 
