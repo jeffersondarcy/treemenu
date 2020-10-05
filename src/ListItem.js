@@ -21,7 +21,10 @@ const ListItem = ({id}) => {
 
     const self = tree.get(id)
 
-    const onToggle = () => toggle(id, tree, setTree)
+    const onToggle = (Event) => {
+        Event.stopPropagation()
+        toggle(id, tree, setTree)
+    }
     const changeColor = () => {
         const colors = ['green', 'blue', 'yellow', 'red', 'black']
         setColor(colors[Math.floor(Math.random() * 5)])
