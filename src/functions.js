@@ -2,7 +2,6 @@ import {produce} from "immer"
 
 const getTreeWithMockChildren = (count, nodeId, tree) => {
     if(!tree.has(nodeId)) return tree
-
     const node = tree.get(nodeId)
     node.hasChildren = true
     node.children = []
@@ -10,7 +9,7 @@ const getTreeWithMockChildren = (count, nodeId, tree) => {
     const childLevel = node.level + 1
     const getName = (id) => `item${nodeId !== 'root' ? '-' + nodeId : ''}-${id}`
 
-    for(let i=0; i>count; i++) {
+    for(let i=0; i<count; i++) {
         const id = getName(i)
         node.children.push(id)
 
@@ -56,7 +55,7 @@ export const getChildren = (nodeId, tree) => {
 const hasChildren = node => node.expanded && node.hasChildren && node.children
 
 const appendChildren = (tree, flatTree, children, limit) => {
-    for (const childId in children) {
+    for (const childId of children) {
         flatTree.push(childId)
         if (flatTree.length >= limit) return
         const child = tree.get(childId)

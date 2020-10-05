@@ -6,7 +6,8 @@ import {getMockTreeRoot} from "./functions";
 
 
 function App() {
-    const [tree, setTree] = useState(getMockTreeRoot(setTree));
+    console.log('start app')
+    const [tree, setTree] = useState(getMockTreeRoot());
 
     return (
         <div className="App">

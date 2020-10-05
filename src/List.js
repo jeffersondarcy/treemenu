@@ -6,7 +6,7 @@ import {getFlatTree} from "./functions";
 
 const List = () => {
     const [limit, setLimit] = useState(20)
-    const {tree} = useContext(TreeContext)
+    const [tree] = useContext(TreeContext)
     const flatTree = getFlatTree(tree, limit)
     const next = () => setLimit(limit + 20)
 
