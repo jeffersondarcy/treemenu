@@ -13,7 +13,7 @@ const style = {
     height: 30
 };
 
-const ListItem = ({id}) => {
+const ListItem = ({id, highlighted, ref}) => {
     const [tree, setTree] = useContext(TreeContext)
     const [color, setColor] = useState(['green'])
 
@@ -31,9 +31,10 @@ const ListItem = ({id}) => {
     }
 
     return (
-        <div style={{
+        <div id={id} style={{
             ...style,
             marginLeft: style.margin + 30*(self.level-1),
+            backgroundColor: highlighted ? 'grey' : null,
             borderColor: color,
             }}
             onClick={changeColor}
@@ -50,6 +51,8 @@ const ListItem = ({id}) => {
 
 ListItem.propTypes = {
     id: PropTypes.string.isRequired,
+    highlighted: PropTypes.bool,
+    ref: PropTypes.func
 }
 
 export default ListItem

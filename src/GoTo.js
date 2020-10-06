@@ -1,8 +1,13 @@
 import React, {useState} from 'react';
+import PropTypes from 'prop-types';
 
-const GoTo = () => {
+const GoTo = ({handle}) => {
     const [input, setInput] = useState('')
-    const handleSubmit = (e) => { e.preventDefault(); console.log(input) }
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        handle(input.trim())
+    }
+
     return (
         <div>
             <form onSubmit={handleSubmit}>
@@ -14,6 +19,10 @@ const GoTo = () => {
             </form>
         </div>
     );
+}
+
+GoTo.propTypes = {
+    handle: PropTypes.func,
 }
 
 export default GoTo

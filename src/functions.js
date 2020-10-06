@@ -8,7 +8,7 @@ const getTreeWithMockChildren = (count, nodeId, tree) => {
     node.expanded = true
 
     const childLevel = node.level + 1
-    const getName = (id) => `item${nodeId !== 'root' ? '-' + nodeId : ''}-${id}`
+    const getName = (index) => `${nodeId !== 'root' ? '' + nodeId : 'item'}-${index}`
 
     for(let i=0; i<count; i++) {
         const id = getName(i)
@@ -53,8 +53,7 @@ const expand = (nodeId, tree, setTree) => {
 const collapse = (nodeId, tree, setTree) => {
     setTree(produce(tree, newTree => {
         const node = newTree.get(nodeId)
-        node.expanded = false
-        newTree.set(nodeId, node)
+        newTree.set(nodeId, {...node, expanded: false})
     }))
 }
 
@@ -72,12 +71,11 @@ export const expandToNode = (nodeId, tree, setTree) => {
     }
     let node = tree.get(nodeId)
     setTree(produce(tree, newTree => {
-        while (node.parent != 'root')
+        while (node.parent !== 'root')
         {
             const id = node.parent
             node = tree.get(id)
-            node.expanded = true
-            newTree.set(id, node)
+            newTree.set(id, {...node, expanded: true})
         }
     }))
 }
