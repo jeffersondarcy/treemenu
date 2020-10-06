@@ -13,7 +13,7 @@ const style = {
     height: 30
 };
 
-const ListItem = ({id, highlighted, ref}) => {
+const ListItem = ({id, highlighted}) => {
     const [tree, setTree] = useContext(TreeContext)
     const [color, setColor] = useState(['green'])
 
@@ -52,7 +52,6 @@ const ListItem = ({id, highlighted, ref}) => {
 ListItem.propTypes = {
     id: PropTypes.string.isRequired,
     highlighted: PropTypes.bool,
-    ref: PropTypes.func
 }
 
 export default ListItem
